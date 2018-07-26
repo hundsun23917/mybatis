@@ -34,4 +34,10 @@
     <insert id="insertUser1"  >
         insert  into user (name, age, regtime) value (${name},${age},${regTime});
     </insert>
+    <!--使用sql片段-->
+    <sql id="userColumns"> ${tablename}.user,${tablename}.age,${tablename}.regtime</sql>
+    <select id="selectOne">
+        select <include refid="userColumns" ><property name="tablename" value="t1"></property></include>
+        from user where id = #{id};
+    </select>
 </mapper>
