@@ -5,6 +5,20 @@
 <configuration>
     <!--里面要引入jdbc.properties-->
     <properties resource="jdbc.properties"></properties>
+    <settings>
+        <!-- 打印查询语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
+    <!--Caused by: org.xml.sax.SAXParseException; lineNumber: 27; columnNumber: 17; 元素类型为 "configuration" 的内容必须匹配 "(properties?,settings?,typeAliases?,typeHandlers?,objectFactory?,objectWrapperFactory?,reflectorFactory?,plugins?,environments?,databaseIdProvider?,mappers?)"。
+	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:203)
+	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.error(ErrorHandlerWrapper.java:134)
+	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:396)
+	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:327)
+-->
+    <typeHandlers>
+        <typeHandler handler="mapper.MyDateTypeHandler"/>
+    </typeHandlers>
+
     <!--配置环境，里面主要有生成SQLSessionFactory的一些配置，等和spring集成之后就不需要了-->
     <environments default="development">
         <environment id="development">
@@ -17,6 +31,8 @@
             </dataSource>
         </environment>
     </environments>
+
+
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
     </mappers>

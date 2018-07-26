@@ -3,7 +3,35 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.UserMapper">
-    <select id="selectUser" resultType="bean.User">
+    <resultMap id="userResultMap" type="bean.User">
+        <id column="id" property="id"/>
+        <result column="age" property="age"/>
+        <result column="name" property="name"/>
+        <result typeHandler="mapper.MyDateTypeHandler" column="regtime" javaType="java.util.Date"
+                jdbcType="VARCHAR" property="regTime" />
+    </resultMap>
+    <select id="selectUser" resultMap="userResultMap">
   select * from user where id = #{id}
   </select>
+    <!--Exception in thread "main" org.apache.ibatis.builder.IncompleteElementException: Could not find parameter map bean.User
+	at org.apache.ibatis.builder.MapperBuilderAssistant.getStatementParameterMap(MapperBuilderAssistant.java:320)
+	at org.apache.ibatis.builder.MapperBuilderAssistant.addMappedStatement(MapperBuilderAssistant.java:296)
+	at org.apache.ibatis.builder.xml.XMLStatementBuilder.parseStatementNode(XMLStatementBuilder.java:109)
+	at org.apache.ibatis.session.Configuration.buildAllStatements(Configuration.java:788)
+	at org.apache.ibatis.session.Configuration.hasStatement(Configuration.java:758)
+	at org.apache.ibatis.session.Configuration.hasStatement(Configuration.java:753)
+-->
+    <insert id="insertUser" parameterType="bean.User" useGeneratedKeys="true" keyProperty="id">
+        insert  into user (name, age, regtime)
+        value (#{name},#{age}, #{regTime,typeHandler=mapper.MyDateTypeHandler});
+    </insert>
+    <insert id="batchInsertUsers" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert  into user (name, age, regtime)
+        values <foreach collection="list" separator="," item="item" index="index">
+        (#{item.name},#{item.age},#{item.regTime,typeHandler=mapper.MyDateTypeHandler})
+    </foreach>
+    </insert>
+    <insert id="insertUser1"  >
+        insert  into user (name, age, regtime) value (${name},${age},${regTime});
+    </insert>
 </mapper>

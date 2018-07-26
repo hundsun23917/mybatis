@@ -1,9 +1,20 @@
 package bean;
 
+import java.util.Date;
+
 public class User {
     private int id;
     private String name;
-    private String age;
+    private int age;
+    private Date regTime;
+
+    public Date getRegTime() {
+        return regTime;
+    }
+
+    public void setRegTime(Date regTime) {
+        this.regTime = regTime;
+    }
 
     public int getId() {
         return id;
@@ -21,11 +32,11 @@ public class User {
         this.name = name;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -33,6 +44,7 @@ public class User {
     public String toString() {
         return "id:"+id+
                 "age:"+age+
-                "name:"+name;
+                "name:"+name+
+                "date:"+regTime.toString();
     }
 }
